@@ -11,6 +11,21 @@ flowable 工作流引擎
  - act_evt_log表示事件日志，act_prodef_info表示的是流程定义的一些信息。flowable还有一些其它模块中的表，到后面介绍
 
 
+# 核心api
+ - RepositoryService： 管理流程定义
+
+ - RuntimeService： 执行管理，包括启动、推进、删除流程实例等操作
+
+ - TaskService： 任务管理
+
+ - HistoryService： 历史管理(执行完的数据的管理)
+
+ - IdentityService： 组织机构管理
+
+ - FormService： 一个可选服务，任务表单管理
+
+ - ManagerService： 可以查询数据库的表和表的元数据。另外，它提供了查询和管理异步操作的功能。
+
 
 # 自定义权限管理
 如果我们觉得默认的权限管理满足不了我们的需要，或者已经有自己的权限管理系统，则需要额外处理。有2种可以与自己业务兼容的方案：
@@ -31,3 +46,4 @@ flowable 工作流引擎
  - [采用springboot+flowable快速实现工作流](https://blog.csdn.net/puhaiyang/article/details/79845248)
  - [flowable流程引擎初体验，完成一个请假流程](https://www.jianshu.com/p/1e8f915ead55)
  - [Flowable 权限管理](https://www.jianshu.com/p/bbe5ce58577a)
+ - [bpmn配置文件详解](https://blog.csdn.net/u010979642/article/details/104615594)

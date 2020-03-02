@@ -16,6 +16,7 @@
             </extensionElements>
         </userTask>
 
+        <!-- 多个sequenceFlow以网关节点开始时,只根据条件执行其中一条流,其他流不再判断 -->
         <exclusiveGateway id="judgeTask" />
 
         <userTask id="directorTak" name="经理审批">
@@ -36,32 +37,43 @@
 
 
 
-        <sequenceFlow id="directorNotPassFlow" name="驳回" sourceRef="directorTak" targetRef="fillTask">
-            <conditionExpression xsi:type="tFormalExpression"><![CDATA[${outcome=='驳回'}]]></conditionExpression>
-        </sequenceFlow>
-
-        <sequenceFlow id="bossNotPassFlow" name="驳回" sourceRef="bossTask" targetRef="fillTask">
-            <conditionExpression xsi:type="tFormalExpression"><![CDATA[${outcome=='驳回'}]]></conditionExpression>
-        </sequenceFlow>
-
+        <!-- ####################################################################-->
+        <!--                                  顺序流                              -->
+        <!-- ####################################################################-->
+        <!-- 开始 -->
         <sequenceFlow id="flow1" sourceRef="start" targetRef="fillTask" />
 
+        <!-- 判断-条件顺序流 -->
         <sequenceFlow id="flow2" sourceRef="fillTask" targetRef="judgeTask" />
 
+        <!-- 小于500, 经理审批 -->
+        <sequenceFlow id="judgeLess" name="小于500元" sourceRef="judgeTask" targetRef="directorTak">
+            <conditionExpression xsi:type="tFormalExpression"><![CDATA[${money <= 500}]]></conditionExpression>
+        </sequenceFlow>
+
+        <!-- 大于500, 老板审批 -->
         <sequenceFlow id="judgeMore" name="大于500元" sourceRef="judgeTask" targetRef="bossTask">
             <conditionExpression xsi:type="tFormalExpression"><![CDATA[${money > 500}]]></conditionExpression>
         </sequenceFlow>
 
-        <sequenceFlow id="bossPassFlow" name="通过" sourceRef="bossTask" targetRef="end">
-            <conditionExpression xsi:type="tFormalExpression"><![CDATA[${outcome=='通过'}]]></conditionExpression>
-        </sequenceFlow>
-
+        <!-- 经理审批通过 -->
         <sequenceFlow id="directorPassFlow" name="通过" sourceRef="directorTak" targetRef="end">
             <conditionExpression xsi:type="tFormalExpression"><![CDATA[${outcome=='通过'}]]></conditionExpression>
         </sequenceFlow>
 
-        <sequenceFlow id="judgeLess" name="小于500元" sourceRef="judgeTask" targetRef="directorTak">
-            <conditionExpression xsi:type="tFormalExpression"><![CDATA[${money <= 500}]]></conditionExpression>
+        <!-- 经理审批驳回 -->
+        <sequenceFlow id="directorNotPassFlow" name="驳回" sourceRef="directorTak" targetRef="fillTask">
+            <conditionExpression xsi:type="tFormalExpression"><![CDATA[${outcome=='驳回'}]]></conditionExpression>
+        </sequenceFlow>
+
+        <!-- 老板审批通过 -->
+        <sequenceFlow id="bossPassFlow" name="通过" sourceRef="bossTask" targetRef="end">
+            <conditionExpression xsi:type="tFormalExpression"><![CDATA[${outcome=='通过'}]]></conditionExpression>
+        </sequenceFlow>
+
+        <!-- 老板审批驳回 -->
+        <sequenceFlow id="bossNotPassFlow" name="驳回" sourceRef="bossTask" targetRef="fillTask">
+            <conditionExpression xsi:type="tFormalExpression"><![CDATA[${outcome=='驳回'}]]></conditionExpression>
         </sequenceFlow>
     </process>
 

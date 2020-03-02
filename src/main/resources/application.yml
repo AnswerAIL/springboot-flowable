@@ -1,0 +1,31 @@
+server:
+  port: 8080
+#  servlet:
+#    context-path: /sf
+spring:
+  profiles:
+    active: dev
+  application:
+    name: springboot-flowable
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+
+
+
+mybatis:
+  mapper-locations: classpath*:mapper/**.xml
+  type-aliases-package: com.answer.springbootflowable.entity
+  configuration:
+    map-underscore-to-camel-case: true
+#  config-location: classpath:/mybatis/config/mybatis-config.xml
+
+logging:
+  config: classpath:logback-spring.xml
+
+
+flowable:
+  # 定时job功能
+  async-executor-activate: false
+  # 当Flowable发现库与数据库表结构不一致时, 会自动将数据库表结构升级至新版本(生产环境不建议使用)
+  database-schema-update: true
